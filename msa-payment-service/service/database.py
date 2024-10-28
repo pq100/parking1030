@@ -1,6 +1,6 @@
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
-from models.payment import Base
+from lib2to3.pytree import Base
 
 db_url = 'sqlite:///payment.db'
 # Docker Compose에서 정의된 환경 변수로 MariaDB 연결 설정

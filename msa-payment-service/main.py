@@ -28,7 +28,7 @@ app.include_router(payment.router)
 
 if __name__ == "__main__":
     create_tables()
-    uvicorn.run('main:app', port=8050, reload=True)
+    uvicorn.run('main:app', port=8000, reload=True)
 
 
 

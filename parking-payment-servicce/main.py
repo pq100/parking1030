@@ -1,7 +1,11 @@
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parent))
+
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes import payment
+from routes.payment import router as payment_router
 from service.database import create_tables
 
 app = FastAPI()
@@ -24,11 +28,11 @@ async def root():
     return {"message": "Welcome to the FastAPI server!"}
 
 
-app.include_router(payment.router)
+app.include_router(payment_router)
 
 if __name__ == "__main__":
     create_tables()
-    uvicorn.run('main:app', port=8000, reload=True)
+    uvicorn.run('main:app', port=8001, reload=True)
 
 
 

@@ -11,4 +11,4 @@ class Payment(Base):
     payment = Column(VARCHAR(50), nullable=False)
     paydate = Column(VARCHAR(30), nullable=False)
     parkingtime = Column(VARCHAR(20), nullable=False)
-    carnum = Column(VARCHAR(50), ForeignKey=True , nullable=False)
+    carnum = Column(VARCHAR(50), ForeignKey=('parking.carnum') , nullable=False)

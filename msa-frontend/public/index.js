@@ -60,12 +60,12 @@ router.get('/product', function(req, res, next) {
 
 /* product registration */
 router.get('/products', function(req, res, next) {
-  res.sendFile(__dirname + '/views/products.html')
+  res.sendFile(__dirname + '/views/payment.html')
 });
 
 /* product registration */
 router.get('/product/:pno', function(req, res, next) {
-  res.sendFile(__dirname + '/views/productone.html')
+  res.sendFile(__dirname + '/views/paymentone.html')
 });
 
 /* product update */

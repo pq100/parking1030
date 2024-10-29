@@ -16,9 +16,15 @@ const remainCar = async () => {
         const remainCars = document.querySelector('#remainCars');
         // const remainBarrier = document.querySelector('#remainBarrier');
 
-        let html = `${data.non_disabled_spots_left}/100`;
-        // let html1 = `50/100`;
-        remainCars.innerHTML = html;
+        if (data) {
+
+            let html = `${data.non_disabled_spots_left || 0}`;
+            // let html = `${data.total_available_spots || 0}`; // 장애인석도 포함할 경우
+            // let html1 = `50/100`;
+            remainCars.innerHTML = html;
+        }else{
+            console.log('no')
+        }
 
         // let html2 = `${data.remainBarrier}/2`;
         // let html2 = `1/2`;

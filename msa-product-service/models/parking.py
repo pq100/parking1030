@@ -27,7 +27,7 @@ class Parkseat(Base):
 class Payment(Base):
     __tablename__ = 'payment'
 
-    payid = Column(String(30), primary_key=True, index=True)
+    payid = Column(Integer, primary_key=True, autoincrement=True)
     payment = Column(String(50))
     paydate = Column(DateTime, nullable=True)
     parkingtime = Column(String(20), nullable=True)

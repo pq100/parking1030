@@ -1,3 +1,6 @@
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parent))
 
 import uvicorn
 from fastapi import FastAPI
@@ -16,12 +19,13 @@ origins = [
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*']
 )
 
-
+@app.get("/")
+async def root():
+    return {"message": "Welcome to the FastAPI server!"}
 
 
 app.include_router(payment_router)
@@ -29,6 +33,5 @@ app.include_router(payment_router)
 if __name__ == "__main__":
     create_tables()
     uvicorn.run('main:app', port=8001, reload=True)
-
 
 

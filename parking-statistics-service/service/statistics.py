@@ -1,42 +1,30 @@
 from sqlalchemy.orm import Session
-from schema.statistics import VisitorStatsBase, PaymentStatsBase
-from models.statistics import VisitorStats, PaymentStats
-from typing import List, Optional
+from sqlalchemy import extract, func
+from models.statistics import Payment  # 경로 조정 필요
+from schema.statistics import StatisticsResponse
 
-# 방문자 통계 등록
-def register_visitor(db: Session, visitor: VisitorStatsBase) -> VisitorStats:
-    try:
-        visitor = VisitorStats(**visitor.model_dump())
-        db.add(visitor)
-        db.commit()
-        db.refresh(visitor)
-        return visitor
-    except Exception as e:
-        print(f"Error registering visitor: {e}")
-        db.rollback()
-        raise
+def get_monthly_payments(db: Session):
+    monthly_payments = [0] * 12
+    results = db.query(
+        extract('month', Payment.paydate).label('month'),
+        func.sum(Payment.payment).label('total_payment')
+    ).group_by('month').all()
 
-# 요금 통계 등록
-def register_payment(db: Session, payment: PaymentStatsBase) -> PaymentStats:
-    try:
-        payment = PaymentStats(**payment.model_dump())
-        db.add(payment)
-        db.commit()
-        db.refresh(payment)
-        return payment
-    except Exception as e:
-        print(f"Error registering payment: {e}")
-        db.rollback()
-        raise
+    for month, total_payment in results:
+        monthly_payments[int(month) - 1] = total_payment
 
-# 방문자 통계 목록 조회
-def visitor_list(db: Session) -> List[VisitorStats]:
-    return db.query(VisitorStats).all()
+    return monthly_payments
 
-# 요금 통계 목록 조회
-def payment_list(db: Session) -> List[PaymentStats]:
-    return db.query(PaymentStats).all()
+def get_monthly_visitors(db: Session):
+    monthly_visitors = [0] * 12
+    # 방문자 수를 가져오는 로직을 여기에 추가하세요.
+    return monthly_visitors
 
-# 요금 통계 상세 조회
-def payment_one(db: Session, sno: int) -> Optional[PaymentStats]:
-    return db.query(PaymentStats).filter(PaymentStats.sno == sno).first()
+def get_statistics(db: Session) -> StatisticsResponse:
+    monthly_payments = get_monthly_payments(db)
+    monthly_visitors = get_monthly_visitors(db)
+
+    visitordata = [{"month": str(i + 1), "visitor_count": count} for i, count in enumerate(monthly_visitors)]
+    paymentdata = [{"month": str(i + 1), "total_payment": total} for i, total in enumerate(monthly_payments)]
+
+    return StatisticsResponse(visitordata=visitordata, paymentdata=paymentdata)

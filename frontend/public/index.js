@@ -31,6 +31,13 @@ router.get('/admin/parking', function(req, res, next) {
   res.sendFile(__dirname + '/views/admin/parking.html');
 });
 
+router.get('/admin/statisitcs', function(req, res, next) {
+  res.sendFile(__dirname + '/views/admin/statisitcs.html');
+});
+
+router.get('/admin/payment', function(req, res, next) {
+  res.sendFile(__dirname + '/views/admin/payment.html');
+});
 
 
 

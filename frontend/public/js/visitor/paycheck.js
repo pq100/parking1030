@@ -86,7 +86,7 @@ const displayPayment = (payment) => {
 
     // 주차 요금 계산
     const hourlyRate = 3000; // 1시간 요금
-    const per10MinutesRate = 500; // 10분당 요금
+    const per10MinutesRate = 20000; // 10분당 요금
     const hours = Math.floor(diffMinutes / 60); // 시간 부분
     const extraMinutes = diffMinutes % 60; // 나머지 분
 
